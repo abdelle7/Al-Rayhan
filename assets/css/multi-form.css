@@ -1,5 +1,5 @@
 
-button.btn {
+.nxt-prv > button.btn {
     height: 50px;
     margin: 0;
     padding: 0 20px;
@@ -26,12 +26,12 @@ button.btn {
     transition: all .3s;
 }
 
-button.btn:hover {
+.nxt-prv > button.btn:hover {
     opacity: 0.6;
     color: #fff;
 }
 
-button.btn:active {
+.nxt-prv > button.btn:active {
     outline: 0;
     opacity: 0.6;
     color: #fff;
@@ -40,7 +40,7 @@ button.btn:active {
     box-shadow: none;
 }
 
-button.btn:focus {
+.nxt-prv > button.btn:focus {
     outline: 0;
     opacity: 0.6;
     background: #888;
@@ -48,8 +48,8 @@ button.btn:focus {
     color: #fff;
 }
 
-button.btn:active:focus,
-button.btn.active:focus {
+.nxt-prv > button.btn:active:focus,
+.nxt-prv > button.btn.active:focus {
     outline: 0;
     opacity: 0.6;
     background: #555;
