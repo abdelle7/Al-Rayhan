@@ -10,7 +10,7 @@ $(document).ready(function () {
         var parent_fieldset = $(this).parents('fieldset');
         var next_step = true;
 
-        parent_fieldset.find('input[type="text"],input[type="email"]').each(function () {
+        parent_fieldset.find('input[type="text"],input[type="email"],input[type="number"],textarea[id="desi"]').each(function () {
             if ($(this).val() == "") {
                 $(this).addClass('input-error');
                 next_step = false;
@@ -37,7 +37,7 @@ $(document).ready(function () {
     // submit
     $('.registration-form').on('submit', function (e) {
 
-        $(this).find('input[type="text"],input[type="email"]').each(function () {
+        $(this).find('input[type="text"],input[type="email",input[type="number"],textarea[id="desi"]').each(function () {
             if ($(this).val() == "") {
                 e.preventDefault();
                 $(this).addClass('input-error');
