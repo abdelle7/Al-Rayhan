@@ -59,6 +59,7 @@ p {
     line-height:25px;
     padding-top:20px;
 }
+
 /*==============================================
    DASHBOARD STYLES
     =============================================*/
@@ -363,6 +364,16 @@ border-radius: 25px;
 text-align: center;
 font-size: 12px;
 line-height: 1.428571429;
+}
+.text-btn {
+    background:none!important;
+     color:blue;
+     border:none;
+     padding:0!important;
+     font: inherit;
+     /*border is optional*/
+     border-bottom:1px solid blue;
+     cursor: pointer;
 }
 
 /*==============================================

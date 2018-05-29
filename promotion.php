@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Al Rayhan</a>
+                <a class="navbar-brand" href="index.php">Al Rayhan</a>
             </div>
             <div style="color: white;
 padding: 15px 50px 5px 50px;
@@ -39,18 +39,18 @@ font-size: 16px;"> <time id="today"></time> </div>
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                     <li class="text-center">
-                        <a href="index.html"><img src="assets/img/find_user.png" class="user-image img-responsive" /></a>
+                        <a href="index.php"><img src="assets/img/find_user.png" class="user-image img-responsive" /></a>
                     </li>
 
 
                     <li>
-                        <a  href="index.html"><i class="fa fa-shopping-cart fa-3x"></i> Produit<span class="fa arrow"></span></a>
+                        <a class="active-menu"  href="index.php"><i class="fa fa-shopping-cart fa-3x"></i> Produit<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="index.html">Produits</a>
                             </li>
                             <li>
-                                <a href="promotion.html">Promotion</a>
+                                <a class="active-submenu" href="promotion.php">Promotion</a>
                             </li>
                         </ul>
                     </li>
@@ -58,42 +58,42 @@ font-size: 16px;"> <time id="today"></time> </div>
                         <a href="#"><i class="fa fa-users fa-3x"></i> Client<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="client.html">Famille</a>
+                                <a href="client.php">Famille</a>
                             </li>
                             <li>
-                                <a href="passager.html">Passager</a>
+                                <a href="passager.php">Passager</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="fourniseur.html"><i class="fa fa-truck fa-3x"></i> Fourniseur</a>
+                        <a href="fourniseur.php"><i class="fa fa-truck fa-3x"></i> Fourniseur</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-home fa-3x"></i> Magazin<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="magazin.html">Magazins</a>
+                                <a href="magazin.php">Magazins</a>
                             </li>
                             <li>
-                                <a href="depots.html">Depots</a>
+                                <a href="depots.php">Depots</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a href="administration.html"><i class="fa fa-edit fa-3x"></i> Administration<span class="fa arrow"></span> </a>
+                        <a href="administration.php"><i class="fa fa-edit fa-3x"></i> Administration<span class="fa arrow"></span> </a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="administration.html">Ouvriers</a>
+                                <a href="administration.php">Ouvriers</a>
                             </li>
                             <li>
-                                <a href="conge.html">Congé</a>
+                                <a href="conge.php">Congé</a>
                             </li>
                         </ul>
                     </li>
 
                     <li>
-                        <a class="active-menu" href="etat.html"><i class="fa fa-exclamation-triangle fa-3x"></i> Etat</a>
+                        <a href="etat.php"><i class="fa fa-exclamation-triangle fa-3x"></i> Etat</a>
                     </li>
 
 
