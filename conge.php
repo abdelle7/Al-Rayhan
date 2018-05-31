@@ -1,3 +1,4 @@
+<?php include("connection.php"); ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -140,26 +141,26 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                         <div class="col-md-12 form-box">
                                             <br>
-                                            <form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                            <form role="form" class="registration-form" action="" method="post" name="add_OuvrForm">
                                                 <fieldset>
                                                     <div class="form-bottom">
                                                         <div class="row">
                                                             <div class="form-group col-md-3 col-sm-6">
                                                                 <label>CIN :</label>
-                                                                <input type="text" class="form-control" id="cin" value="" required />
+                                                                <input type="text" class="form-control" id="cin" value="" name="addCIN" required />
                                                             </div>
                                                             <div class="form-group col-md-3 col-sm-6">
                                                                 <label>Durée du Congé :</label>
                                                                 <div class="input-daterange input-group" id="datepicker">
-                                                                    <input type="text" id="hamid" class="input-sm form-control" name="start"  required/>
+                                                                    <input type="text" id="hamid" class="input-sm form-control" name="addStart"  required/>
                                                                     <span class="input-group-addon">to</span>
-                                                                    <input type="text" class="input-sm form-control" name="end" required/>
+                                                                    <input type="text" class="input-sm form-control" name="addEnd" required/>
                                                                 </div>
 
                                                             </div>
                                                         </div>
                                                         <div class="nxt-prv">
-                                                            <button type="submit" class="btn" >Ajouter</button>
+                                                            <button type="submit" class="btn" name="ajouter">Ajouter</button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
@@ -176,7 +177,7 @@ font-size: 16px;"> <time id="today"></time> </div>
                                             <br>
                                             <?php
                                         if(!isset($_GET['cin'])){
-                            echo'<form class="registration-form" method="get" name="product-form">
+                            echo'<form class="registration-form" method="get" name="putMod_magForm">
                             <fieldset>
                                 <div class="form-bottom">
                                     <div class="row">
@@ -194,27 +195,28 @@ font-size: 16px;"> <time id="today"></time> </div>
                                 };
 
                                         if(isset($_GET['cin'])){
-                                        echo '<form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                            $cin=$_GET['cin'];
+                                            $query="select * from Conge where CIN_ouvr='".$cin."'";
+                                            $result=mysqli_query($conn,$query);
+                                            $row=mysqli_fetch_row($result);
+                                        echo '<form role="form" class="registration-form" action="" name="modifier_magForm" method="post">
                                                 <fieldset>
                                                    <div class="form-bottom">
                                                    <div class="row">
 
+
                                                             <div class="form-group col-md-3 col-sm-6">
-                                                                <label>CIN :</label>
-                                                                <input type="text" class="form-control" id="cin" required />
+                                                            <label>Durée du Congé :</label>
+                                                            <div class="input-daterange input-group" id="datepicker" >
+                                                            <input type="text" id="hamid" class="input-sm form-control" name="modStart" value="'.$row[1].'" required/>
+                                                            <span class="input-group-addon">to</span>
+                                                            <input type="text" class="input-sm form-control" name="modEnd" value="'.$row[2].'" required/>
                                                             </div>
-<div class="form-group col-md-3 col-sm-6">
-<label>Durée du Congé :</label>
-<div class="input-daterange input-group" id="datepicker" >
-<input type="text" id="hamid" class="input-sm form-control" name="start" value="11/11/2011" required/>
-<span class="input-group-addon">to</span>
-<input type="text" class="input-sm form-control" name="end" value="11/11/2011" required/>
-</div>
-</div>
+                                                            </div>
 
                                                         </div>
                                                         <div class="nxt-prv">
-                                                            <button type="submit" class="btn">Verifier</button>
+                                                            <button type="submit" class="btn" name="modiferForm">Modifier</button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
@@ -226,17 +228,17 @@ font-size: 16px;"> <time id="today"></time> </div>
                                     <div class="tab-pane fade" id="messages-pills">
                                         <div class="col-md-12 form-box">
                                             <br>
-                                            <form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                            <form role="form" class="registration-form" method="post" name="delete-Form">
                                                 <fieldset>
                                                     <div class="form-bottom">
                                                         <div class="row">
                                                             <div class="form-group col-md-3 col-sm-6">
                                                                 <label>CIN :</label>
-                                                                <input type="text" class="form-control" id="cin" value="" required />
+                                                                <input type="text" class="form-control" id="cin" value="" name="delCIN" required />
                                                             </div>
                                                         </div>
                                                         <div class="nxt-prv">
-                                                            <button type="submit" class="btn">Supprimer</button>
+                                                            <button type="submit" class="btn" name="deleteForm">Supprimer</button>
                                                         </div>
                                                     </div>
                                                 </fieldset>
@@ -268,43 +270,29 @@ font-size: 16px;"> <time id="today"></time> </div>
                                                 <th>Adresse</th>
                                                 <th>Numéro de Téléphone</th>
                                                 <th>Sexe</th>
+                                                <th>Date Debut</th>
+                                                <th>Date Fin</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="odd gradeX">
-                                                <td><a href="conge.php?cin=5">Trident</a></td>
-                                                <td>Internet Explorer 4.0</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-                                            </tr>
-                                            <tr class="even gradeC">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 5.0</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">5</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-                                            </tr>
-                                            <tr class="odd gradeA">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 5.5</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">5.5</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-
-                                            </tr>
-                                            <tr class="even gradeA">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 6</td>
-                                                <td>Win 98+</td>
-                                                <td class="center">6</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-
-                                            </tr>
+                                           <?php
+                                            $query = "SELECT * FROM ouvrier O,conge C WHERE O.CIN_ouvr=C.CIN_ouvr;";
+                                            $result = mysqli_query($conn,$query);
+                                            if(mysqli_num_rows($result)>0){
+                                                while($row=mysqli_fetch_assoc($result)){
+                                                    echo"<tr>
+                                                <td><a href='?cin=".$row['CIN_ouvr']."'>".$row['CIN_ouvr']."</a></td>
+                                                <td>".$row['Nom_ouvr']."</td>
+                                                <td class='center'>".$row['Prenom_ouvr']."</td>
+                                                <td>".$row['Adresse_ouvr']."</td>
+                                                <td class='center'>".$row['Numero_tele_ouvr']."</td>
+                                                <td class='center'>".$row['Sexe_ouvr']."</td>
+                                                <td class='center'>".$row['Date_debut']."</td>
+                                                <td class='center'>".$row['Date_fin']."</td>
+                                            </tr>";
+                                                }
+                                            }
+                                             ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -318,6 +306,82 @@ font-size: 16px;"> <time id="today"></time> </div>
 
             </div>
             <!-- /. PAGE INNER  -->
+
+              <!-- Button trigger modal add -->
+<button id="modal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal add -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Ajouté avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+                        <!-- Button trigger modal delete -->
+<button id="deletemodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Supprimé avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- Button trigger modal modifier -->
+<button id="modifiermodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifierModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal modifier-->
+<div class="modal fade" id="modifierModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Modifier avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+         <!-- Button trigger modal Warning -->
+<button id="warningmodel" type="button" class="btn btn-primary" data-toggle="modal" data-target="#warningModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal Warning-->
+<div class="modal fade" id="warningModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Une erreur est survenue, veuillez vérifier votre saisie&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Warning.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
         <!-- /. PAGE WRAPPER  -->
         <div>
@@ -344,6 +408,7 @@ font-size: 16px;"> <time id="today"></time> </div>
         document.getElementById('today').innerHTML = today.toDateString();
 
         $('#datepicker').datepicker({
+            format: "yyyy-mm-dd",
             startDate: 'today',
             todayBtn: 'linked',
             clearBtn: true,
@@ -352,6 +417,12 @@ font-size: 16px;"> <time id="today"></time> </div>
         function toModifier(){
             document.getElementById("click_mod").click();
 
+        }
+        function reload(){
+            window.location.replace("conge.php");
+        }
+        function modalPopup(){
+            document.getElementById("modal").click();
         }
 
     </script>
@@ -365,6 +436,45 @@ echo "toModifier();";
 echo "</script>";
 }
     ?>
+    <?php
+if(isset($_POST['ajouter'])){
+    $addcin = $_POST['addCIN'];
+    $addstart = $_POST['addStart'];
+    $addend = $_POST['addEnd'];
+    $query = "INSERT INTO conge VALUES('$addcin','$addstart','$addend');";
+    if(mysqli_query($conn,$query)){
+        echo '<script>  modalPopup(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+        //echo("Error description: " . mysqli_error($conn));
+    }
+    mysqli_close($conn);
+
+}
+if(isset($_POST['modiferForm'])){
+    $oldcin = $_GET['cin'];
+    $modstart = $_POST['modStart'];
+    $modend = $_POST['modEnd'];
+    $query = "UPDATE conge SET Date_debut='$modstart',Date_fin='$modend' WHERE CIN_ouvr='$oldcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("modifiermodal").click(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+        echo("Error description: " . mysqli_error($conn));
+    }
+    mysqli_close($conn);
+}
+if(isset($_POST['deleteForm'])){
+    $delcin = $_POST['delCIN'];
+    $query = "DELETE FROM conge WHERE CIN_ouvr='$delcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("deletemodal").click(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+    }
+    mysqli_close($conn);
+}
+?>
 </body>
 
 </html>

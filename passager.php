@@ -1,3 +1,4 @@
+<?php include("connection.php"); ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -138,32 +139,32 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                             <div class="col-md-12 form-box">
                                                 <br>
-                                                <form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                                <form role="form" class="registration-form" action="" name="product-form" method="post">
                             <fieldset>
                                 <div class="form-bottom">
                                     <div class="row">
                                        <div class="form-group col-md-3 col-sm-6">
                                             <label>CIN :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="" name="addCIN"  required />
                                         </div>
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Nom :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="" name="addNom"  required />
                                         </div>
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Prénom :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="" name="addPrenom"  required />
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Numéro de Téléphone :</label>
-                                            <input type="tel" class="form-control" id="ref" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+                                            <input type="tel" class="form-control" id="ref" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" name="addNum" required/>
                                         </div>
                                     </div>
                                     <div class="nxt-prv">
-                                        <button type="submit" class="btn">Ajouter</button>
+                                        <button type="submit" class="btn" name="ajouter">Ajouter</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -196,32 +197,36 @@ font-size: 16px;"> <time id="today"></time> </div>
                             </form>';
                                 };
                                                 if(isset($_GET['cin'])){
-                                                    echo '<form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                                    $cin=$_GET['cin'];
+                                $query="select * from clients where CIN_clt='".$cin."'";
+                                $result=mysqli_query($conn,$query);
+                                $row=mysqli_fetch_row($result);
+                                                    echo '<form role="form" class="registration-form" action="" name="product-form" method="post">
                             <fieldset>
                                 <div class="form-bottom">
                                     <div class="row">
                                        <div class="form-group col-md-3 col-sm-6">
                                             <label>CIN :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="'.$row[0].'" name="modCIN"  required />
                                         </div>
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Nom :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="'.$row[2].'" name="modNom"  required />
                                         </div>
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Prénom :</label>
-                                            <input type="text" class="form-control" id="ref" value=""  required />
+                                            <input type="text" class="form-control" id="ref" value="'.$row[3].'" name="modPrenom"  required />
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>Numéro de Téléphone :</label>
-                                            <input type="tel" class="form-control" id="ref" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+                                            <input type="tel" class="form-control" id="ref" value="'.$row[4].'" name="modNum" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
                                         </div>
                                     </div>
                                     <div class="nxt-prv">
-                                        <button type="submit" class="btn">Modifier</button>
+                                        <button type="submit" class="btn" name="modiferForm">Modifier</button>
                                     </div>
                                 </div>
                             </fieldset>
@@ -238,17 +243,17 @@ font-size: 16px;"> <time id="today"></time> </div>
                                             <div class="col-md-12 form-box">
                                                 <br>
 
-                                                <form class="registration-form" method="get" name="product-form">
+                                                <form class="registration-form" method="post" name="delete-Form">
                             <fieldset>
                                 <div class="form-bottom">
                                     <div class="row">
                                         <div class="form-group col-md-3 col-sm-6">
                                             <label>CIN :</label>
-                                            <input type="text" class="form-control" id="ref" value="" name="cinsupp" required/>
+                                            <input type="text" class="form-control" id="ref" value="" name="delCIN" required/>
                                         </div>
                                     </div>
                                     <div class="nxt-prv">
-                                        <button type="submit" class="btn btn-next">Supprimer</button>
+                                        <button type="submit" class="btn btn-next" name="deleteForm">Supprimer</button>
                                     </div>
                                 </div>
                                 </fieldset>
@@ -284,33 +289,20 @@ font-size: 16px;"> <time id="today"></time> </div>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="odd gradeX">
-                                                <td><a href="?cin=5">D978891</a></td>
-                                                <td>Internet Explorer 4.0</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">4</td>
-                                            </tr>
-                                            <tr class="even gradeC">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 5.0</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">5</td>
-
-                                            </tr>
-                                            <tr class="odd gradeA">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 5.5</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">5.5</td>
-
-                                            </tr>
-                                            <tr class="even gradeA">
-                                                <td>Trident</td>
-                                                <td>Internet Explorer 6</td>
-                                                <td>Win 98+</td>
-                                                <td class="center">6</td>
-
-                                            </tr>
+                                           <?php
+                                            $query = "SELECT * from clients where CIN_clt_famille IS NULL;";
+                                            $result = mysqli_query($conn,$query);
+                                            if(mysqli_num_rows($result)>0){
+                                                while($row=mysqli_fetch_assoc($result)){
+                                                    echo"<tr>
+                                                <td><a href='?cin=".$row['CIN_clt']."'>".$row['CIN_clt']."</a></td>
+                                                <td>".$row['Nom_clt']."</td>
+                                                <td>".$row['Prenom_clt']."</td>
+                                                <td class='center'>".$row['Num_tele_clt']."</td>
+                                            </tr>";
+                                                }
+                                            }
+                                             ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -324,6 +316,63 @@ font-size: 16px;"> <time id="today"></time> </div>
 
             </div>
             <!-- /. PAGE INNER  -->
+
+                        <!-- Button trigger modal add -->
+<button id="modal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal add -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Ajouté avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- Button trigger modal delete -->
+<button id="deletemodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Supprimé avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- Button trigger modal modifier -->
+<button id="modifiermodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifierModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal modifier-->
+<div class="modal fade" id="modifierModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Modifier avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
         <!-- /. PAGE WRAPPER  -->
         <div>
@@ -357,6 +406,12 @@ font-size: 16px;"> <time id="today"></time> </div>
                 lineColor: "#000",
             });
         }
+        function modalPopup(){
+            document.getElementById("modal").click();
+        }
+        function reload(){
+            window.location.replace("passager.php");
+        }
         function putUnite(e) {
             document.getElementById('unite-holder').value=e.value;
             document.getElementById('quantite').setAttribute("max",e.value);
@@ -380,6 +435,39 @@ echo "toModifier();";
 echo "</script>";
 }
     ?>
+     <?php
+if(isset($_POST['ajouter'])){
+    $addcin = $_POST['addCIN'];
+    $addnom = $_POST['addNom'];
+    $addprenom = $_POST['addPrenom'];
+    $addnum = $_POST['addNum'];
+    $query = "INSERT INTO clients VALUES('$addcin',NULL,'$addnom','$addprenom','$addnum');";
+    if(mysqli_query($conn,$query)){
+        echo '<script>  modalPopup(); </script>';
+    }
+    mysqli_close($conn);
+}
+if(isset($_POST['modiferForm'])){
+    $modcin = $_POST['modCIN'];
+    $oldcin=$_GET['cin'];
+    $modnom = $_POST['modNom'];
+    $modprenom = $_POST['modPrenom'];
+    $modnum = $_POST['modNum'];
+    $query = "UPDATE clients SET CIN_clt='$modcin',CIN_clt_famille=NULL,Nom_clt='$modnom',Prenom_clt='$modprenom',Num_tele_clt='$modnum' WHERE CIN_clt='$oldcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("modifiermodal").click(); </script>';
+    }
+    mysqli_close($conn);
+}
+if(isset($_POST['deleteForm'])){
+    $delcin = $_POST['delCIN'];
+    $query = "DELETE FROM clients WHERE CIN_clt='$delcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("deletemodal").click(); </script>';
+    }
+    mysqli_close($conn);
+}
+?>
 </body>
 
 </html>

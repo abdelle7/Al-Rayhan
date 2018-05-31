@@ -5,3 +5,6 @@
 /node_modules/
 /assets/js/locales/
 /assets/js/dataTables/
+/blank.php
+/test.php
+/blankTab.php

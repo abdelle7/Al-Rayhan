@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿<?php include("connection.php"); ?>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -140,7 +141,7 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                             <div class="col-md-12 form-box">
                                                 <br>
-                                                <form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                                <form role="form" class="registration-form" action="" method="post" name="add_OuvrForm">
                                                     <fieldset>
 
                                                         <div class="form-bottom">
@@ -148,19 +149,19 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>CIN :</label>
-                                                                    <input type="text" class="form-control" id="cin" value="" required />
+                                                                    <input type="text" class="form-control" id="cin" value="" name="addCin" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Nom :</label>
-                                                                    <input type="text" class="form-control" id="nom" value="" required />
+                                                                    <input type="text" class="form-control" id="nom" value="" name="addNom" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Prénom :</label>
-                                                                    <input type="text" class="form-control" id="prenom" value="" required />
+                                                                    <input type="text" class="form-control" id="prenom" value="" name="addPrenom" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Adresse :</label>
-                                                                    <input type="text" class="form-control" id="adr" value="" required />
+                                                                    <input type="text" class="form-control" id="adr" value="" name="addAdresse" required />
                                                                 </div>
 
                                                             </div>
@@ -168,27 +169,46 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Numéro de Téléphone :</label>
-                                                                    <input type="tel" class="form-control" id="tele-num" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+                                                                    <input type="tel" class="form-control" id="tele-num" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" name="addNum" required/>
+                                                                </div>
+                                                                <div class="form-group col-md-3 col-sm-6">
+                                                                    <label>Magazin :</label>
+                                                                    <select class="form-control" id="gendre" name="addNmag" required>
+                                                                    <option disabled selected value> -- Choisir un Magazin -- </option>
+                                                                <?php
+                                                                $querymag="SELECT Numero_mag,Nom_mag from magazin;";
+                                                                $resultmag=mysqli_query($conn,$querymag);
+                                                                if(mysqli_num_rows($resultmag)>0){
+                                                                    while($rowmag=mysqli_fetch_assoc($resultmag)){
+                                                                        echo '<option value="'.$rowmag["Numero_mag"].'">'.$rowmag["Nom_mag"].'</option>';
+                                                                    }
+                                                                }else{
+                                                                    echo '<option disabled selected value> -- Creer un Magasin -- </option>';
+                                                                }
+
+                                                                ?>
+                                                                </select>
                                                                 </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Sexe :</label>
-                                                                    <select class="form-control" name="sexe" id="gendre" required>
-                                                <option value="M">Masculin</option>
-                                                <option value="F">Féminin</option>
-                                            </select>
+                                                                    <select class="form-control" id="gendre" name="addSex" required>
+                                                                <option disabled selected value> -- Choisir le Sexe -- </option>
+                                                                <option value="M">Masculin</option>
+                                                                <option value="F">Féminin</option>
+                                                            </select>
                                                                 </div>
                                                                 <div class="form-group col-md-2 col-sm-6">
                                                                     <label>Salaire :</label>
                                                                     <div class="form-group input-group">
-                                                                        <input type="number" class="form-control" id="salaire" value="" required/>
+                                                                        <input type="number" class="form-control" id="salaire" value="" name="addSal" required/>
                                                                         <span class="input-group-addon" style="font-weight: bold">DH</span>
                                                                     </div>
 
                                                                 </div>
                                                             </div>
                                                             <div class="nxt-prv">
-                                                                <button type="submit" class="btn">valider</button>
+                                                                <button type="submit" class="btn" name="ajouter">Ajouter</button>
                                                             </div>
                                                             <br>
 
@@ -206,7 +226,7 @@ font-size: 16px;"> <time id="today"></time> </div>
                                                 <br>
                                                 <?php
                                                 if(!isset($_GET['cin'])){
-                                                echo '<form class="registration-form" method="get" name="product-form">
+                                                echo '<form class="registration-form" method="get" name="putMod_magForm">
                             <fieldset>
                                 <div class="form-bottom">
                                     <div class="row">
@@ -223,8 +243,12 @@ font-size: 16px;"> <time id="today"></time> </div>
                             </form>';
                                                 };
                                                 if(isset($_GET['cin'])){
+                                                $cin=$_GET['cin'];
+                                                $query="select * from ouvrier where CIN_ouvr='".$cin."'";
+                                                $result=mysqli_query($conn,$query);
+                                                $row=mysqli_fetch_row($result);
                                                 echo '
-                                                <form role="form" class="registration-form" action="javascript:void(0);" name="product-form">
+                                                <form role="form" class="registration-form" action="" name="modifier_magForm" method="post">
                                                     <fieldset>
 
                                                         <div class="form-bottom">
@@ -232,19 +256,19 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>CIN :</label>
-                                                                    <input type="text" class="form-control" id="cin" value="" required />
+                                                                    <input type="text" class="form-control" id="cin" value="'.$row[0].'" name="modCIN" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Nom :</label>
-                                                                    <input type="text" class="form-control" id="nom" value="" required />
+                                                                    <input type="text" class="form-control" id="nom" value="'.$row[2].'" name="modNom" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Prénom :</label>
-                                                                    <input type="text" class="form-control" id="prenom" value="" required />
+                                                                    <input type="text" class="form-control" id="prenom" value="'.$row[3].'" name="modPrenom" required />
                                                                 </div>
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Adresse :</label>
-                                                                    <input type="text" class="form-control" id="adr" value="" required />
+                                                                    <input type="text" class="form-control" id="adr" value="'.$row[4].'" name="modAdresse" required />
                                                                 </div>
 
                                                             </div>
@@ -252,27 +276,44 @@ font-size: 16px;"> <time id="today"></time> </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Numéro de Téléphone :</label>
-                                                                    <input type="tel" class="form-control" id="tele-num" value="" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" required/>
+                                                                    <input type="tel" class="form-control" id="tele-num" value="'.$row[5].'" minlength="10" maxlength="14" pattern="^(?:0|\(?\+212\)?\s?|00212\s?)[1-79](?:[\.\-\s]?\d\d){4}$" name="modNum" required/>
                                                                 </div>
 
                                                                 <div class="form-group col-md-3 col-sm-6">
+                                                                    <label>Magazin :</label>
+                                                                    <select class="form-control" name="modNmag" id="gendre" required>';
+                                                                $querymag="SELECT Numero_mag,Nom_mag from magazin;";
+                                                                $resultmag=mysqli_query($conn,$querymag);
+                                                                if(mysqli_num_rows($resultmag)>0){
+                                                                    echo '<option disabled selected value> -- Choisir un Magasin -- </option>';
+                                                                    while($rowmag=mysqli_fetch_assoc($resultmag)){
+                                                                        echo '<option value="'.$rowmag["Numero_mag"].'" '.(($row[1]==$rowmag["Numero_mag"]) ? "selected" :"").'>'.$rowmag["Nom_mag"].'</option>';
+                                                                    }
+                                                                }else{
+                                                                    echo '<option disabled selected value> -- Creer un Magasin -- </option>';
+                                                                }
+                                                                echo '
+                                                                </select>
+                                                                </div>
+                                                                <div class="form-group col-md-3 col-sm-6">
                                                                     <label>Sexe :</label>
-                                                                    <select class="form-control" name="sexe" id="gendre" required>
-                                                <option value="M">Masculin</option>
-                                                <option value="F">Féminin</option>
+                                                                    <select class="form-control"  name="modSex" id="gendre" required>
+                                                                    <option disabled selected value> -- Choisir le Sexe -- </option>
+                                                <option value="M" '.(($row[6]=="M") ? "selected" :"").'>Masculin</option>
+                                                <option value="F" '.(($row[6]=="F") ? "selected" :"").'>Féminin</option>
                                             </select>
                                                                 </div>
                                                                 <div class="form-group col-md-2 col-sm-6">
                                                                     <label>Salaire :</label>
                                                                     <div class="form-group input-group">
-                                                                        <input type="number" class="form-control" id="salaire" value="" required/>
+                                                                        <input type="number" class="form-control" id="salaire" value="'.$row[7].'" name="modSal" required/>
                                                                         <span class="input-group-addon" style="font-weight: bold">DH</span>
                                                                     </div>
 
                                                                 </div>
                                                             </div>
                                                             <div class="nxt-prv">
-                                                                <button type="submit" class="btn">valider</button>
+                                                                <button type="submit" class="btn" name="modiferForm">Modifier</button>
                                                             </div>
                                                             <br>
 
@@ -288,21 +329,21 @@ font-size: 16px;"> <time id="today"></time> </div>
                                         <div class="tab-pane fade" id="messages-pills">
                                             <div class="col-md-12 form-box">
                                                 <br>
-                                                <form class="registration-form" method="get" name="product-form">
-                            <fieldset>
-                                <div class="form-bottom">
-                                    <div class="row">
-                                        <div class="form-group col-md-3 col-sm-6">
-                                            <label>Cin :</label>
-                                            <input type="text" class="form-control" id="ref" value="" name="cinsupp" required/>
-                                        </div>
-                                    </div>
-                                    <div class="nxt-prv">
-                                        <button type="submit" class="btn btn-next">Supprimer</button>
-                                    </div>
-                                </div>
-                                </fieldset>
-                            </form>
+                                                <form class="registration-form" method="post" name="delete-Form">
+                                                    <fieldset>
+                                                        <div class="form-bottom">
+                                                            <div class="row">
+                                                                <div class="form-group col-md-3 col-sm-6">
+                                                                    <label>CIN :</label>
+                                                                    <input type="text" class="form-control" id="ref" value="" name="delCIN" required/>
+                                                                </div>
+                                                            </div>
+                                                            <div class="nxt-prv">
+                                                                <button type="submit" class="btn btn-next" name="deleteForm">Supprimer</button>
+                                                            </div>
+                                                        </div>
+                                                    </fieldset>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -331,19 +372,29 @@ font-size: 16px;"> <time id="today"></time> </div>
                                                 <th>Adresse</th>
                                                 <th>Numéro de Téléphone</th>
                                                 <th>Sexe</th>
+                                                <th>Magazin</th>
                                                 <th>Salaire</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="odd gradeX">
-                                                <td><a href="administration.php?cin=5">D978891</a></td>
-                                                <td>Internet Explorer 4.0</td>
-                                                <td>Win 95+</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-                                                <td class="center">4</td>
-                                                <td class="center">1500</td>
-                                            </tr>
+                                           <?php
+                                            $query = "SELECT CIN_ouvr,Nom_ouvr,Prenom_ouvr,Adresse_ouvr,Numero_tele_ouvr,Sexe_ouvr,Salaire_ouvr,Nom_mag from ouvrier,magazin where ouvrier.Numero_mag=magazin.Numero_mag;";
+                                            $result = mysqli_query($conn,$query);
+                                            if(mysqli_num_rows($result)>0){
+                                                while($row=mysqli_fetch_assoc($result)){
+                                                    echo"<tr>
+                                                <td><a href='?cin=".$row['CIN_ouvr']."'>".$row['CIN_ouvr']."</a></td>
+                                                <td>".$row['Nom_ouvr']."</td>
+                                                <td class='center'>".$row['Prenom_ouvr']."</td>
+                                                <td>".$row['Adresse_ouvr']."</td>
+                                                <td class='center'>".$row['Numero_tele_ouvr']."</td>
+                                                <td class='center'>".$row['Sexe_ouvr']."</td>
+                                                <td class='center'>".$row['Nom_mag']."</td>
+                                                <td class='center'>".$row['Salaire_ouvr']."</td>
+                                            </tr>";
+                                                }
+                                            }
+                                             ?>
                                         </tbody>
                                     </table>
                                 </div>
@@ -357,6 +408,82 @@ font-size: 16px;"> <time id="today"></time> </div>
 
             </div>
             <!-- /. PAGE INNER  -->
+
+  <!-- Button trigger modal add -->
+<button id="modal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal add -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Ajouté avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+                        <!-- Button trigger modal delete -->
+<button id="deletemodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#deleteModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal delete -->
+<div class="modal fade" id="deleteModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Supprimé avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <!-- Button trigger modal modifier -->
+<button id="modifiermodal" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifierModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal modifier-->
+<div class="modal fade" id="modifierModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Modifier avec Succès&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Added_Successfully.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="reload();">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+         <!-- Button trigger modal Warning -->
+<button id="warningmodel" type="button" class="btn btn-primary" data-toggle="modal" data-target="#warningModel" style="display:none">
+  Launch demo modal
+</button>
+
+<!-- Modal Warning-->
+<div class="modal fade" id="warningModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-body">
+        <h1 style="display:inline">Une erreur est survenue, veuillez vérifier votre saisie&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h1><image src="assets/img/Warning.png"  style="width:150px;height:150px;"></image>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
         <!-- /. PAGE WRAPPER  -->
         <div>
@@ -385,14 +512,20 @@ font-size: 16px;"> <time id="today"></time> </div>
         function change() {
             document.getElementById('modifier').click();
         }
-        function toModifier(){
+        function reload(){
+            window.location.replace("administration.php");
+        }
+        function modalPopup(){
+            document.getElementById("modal").click();
+        }
+        function toModifier() {
             document.getElementById("click_mod").click();
         }
 
     </script>
     <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-<?php
+    <?php
 if(isset($_GET['cin']))
 {
 echo "<script>";
@@ -400,6 +533,55 @@ echo "toModifier();";
 echo "</script>";
 }
     ?>
+    <?php
+if(isset($_POST['ajouter'])){
+    $addcin = $_POST['addCin'];
+    $addNmag = $_POST['addNmag'];
+    $addnom = $_POST['addNom'];
+    $addprenom = $_POST['addPrenom'];
+    $addadresse = $_POST['addAdresse'];
+    $addnum = $_POST['addNum'];
+    $addsex = $_POST['addSex'];
+    $addsal = $_POST['addSal'];
+    $query = "INSERT INTO ouvrier VALUES('$addcin','$addNmag','$addnom','$addprenom','$addadresse','$addnum','$addsex','$addsal');";
+    if(mysqli_query($conn,$query)){
+        echo '<script>  modalPopup(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+        //echo("Error description: " . mysqli_error($conn));
+    }
+    mysqli_close($conn);
+
+}
+if(isset($_POST['modiferForm'])){
+    $modcin = $_POST['modCIN'];
+    $oldcin=$_GET['cin'];
+    $modNmag = $_POST['modNmag'];
+    $modnom = $_POST['modNom'];
+    $modprenom = $_POST['modPrenom'];
+    $modadresse = $_POST['modAdresse'];
+    $modnum = $_POST['modNum'];
+    $modsex = $_POST['modSex'];
+    $modsal = $_POST['modSal'];
+    $query = "UPDATE ouvrier SET CIN_ouvr='$modcin',Nom_ouvr='$modnom',Numero_mag='$modNmag',Prenom_ouvr='$modprenom',Adresse_ouvr='$modadresse',Numero_tele_ouvr='$modnum',Sexe_ouvr='$modsex',Salaire_ouvr='$modsal' WHERE CIN_ouvr='$oldcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("modifiermodal").click(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+    }
+    mysqli_close($conn);
+}
+if(isset($_POST['deleteForm'])){
+    $delcin = $_POST['delCIN'];
+    $query = "DELETE FROM ouvrier WHERE CIN_ouvr='$delcin';";
+    if(mysqli_query($conn,$query)){
+        echo '<script> document.getElementById("deletemodal").click(); </script>';
+    }else{
+        echo '<script> document.getElementById("warningmodel").click(); </script>';
+    }
+    mysqli_close($conn);
+}
+?>
 </body>
 
 </html>
