@@ -230,7 +230,6 @@ font-size: 16px;"> <time id="today"></time> </div>
                                     </div>
                                 </div>
                             </fieldset>
-
                         </form>';
                                                 };
 
@@ -284,7 +283,7 @@ font-size: 16px;"> <time id="today"></time> </div>
                                             <tr>
                                                 <th>N&deg;</th>
                                                 <th>Nom</th>
-                                                <th>Prenom</th>
+                                                <th>Adresse</th>
                                                 <th>Numéro de Téléphone</th>
                                             </tr>
                                         </thead>
